@@ -1,8 +1,8 @@
 import Axios from "axios";
 
 // We use wait so that our IP doesn't get banned for sending thousands of requests at the same time :)
-function wait(amount = 0) {
-  return new Promise((resolve) => setTimeout(resolve, amount));
+function wait() {
+  return new Promise((resolve) => setTimeout(resolve, Math.random() * 50));
 }
 
 export async function work(data) {
