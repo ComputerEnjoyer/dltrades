@@ -5,36 +5,35 @@ function wait(amount = 0) {
   return new Promise((resolve) => setTimeout(resolve, amount));
 }
 
-export async function work(data, callback) {
+export async function work(data) {
   const dataToQueue = [...data].reverse();
   const queue = [];
   const queueSize = 5;
+  const dataToWork = [];
   const results = [];
 
   while (dataToQueue.length) {
-    if (!queue.length) console.log('queue empty');
+    if (!queue.length) {
+      console.log('queue empty');
 
-    while (queue.length < queueSize && dataToQueue.length) {
-      const addingToQueue = dataToQueue.pop();
-      queue.push(addingToQueue);
-      console.log(`Ready to process ${addingToQueue}`);
+      while (queue.length < queueSize && dataToQueue.length) {
+        const addingToQueue = dataToQueue.pop();
+        queue.push(addingToQueue);
+      }
     }
 
+    console.log('In queue:');
     console.log(queue);
 
-    while (queue.length && queue.length <= queueSize) {
-      console.log(`Processing ${queue[0]}`);
-      const newResult = await callback(queue[0]);
-      results.push(newResult);
-      queue.splice(0, 1);
+    for (const item of queue) {
+      dataToWork.push(Axios.get(item));
     }
+
+    await Promise.all(dataToWork)
+      .then(responses => responses.forEach(response => results.push(response.status)))
+      .then(() => console.log('Processed all items in queue'))
+      .then(() => queue.length = 0);
   }
+  console.log('Results:');
   console.log(results);
-}
-
-
-// TODO: Think about Promises.all() or whatever it's called...
-export async function fetchURL(url) {
-  const response = await Axios.get(url);
-  return response.status;
 }

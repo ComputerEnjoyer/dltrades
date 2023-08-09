@@ -1,6 +1,6 @@
 import generateURL from './utils/generateURL.mjs';
 import parseBinder from './utils/parseBinder.mjs';
-import { fetchURL, work } from './utils/parsePage.mjs';
+import { work } from './utils/parsePage.mjs';
 
 const binder = 'Binder - Haves.csv';
 
@@ -12,7 +12,7 @@ async function main() {
         }
     }).map((item) => generateURL(item));
 
-    work(shortList, fetchURL);
+    work(shortList);
 }
 
 main();
