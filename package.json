@@ -2,7 +2,7 @@
   "name": "node",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "/build app.js",
   "type": "module",
   "scripts": {
     "dev": "node app/app.mjs",
