@@ -1,7 +1,6 @@
 import generateURL from "./utils/generateURL.js";
 import { Card, parseBinder } from "./utils/parseBinder.js";
-import { work } from "./utils/parsePage.js";
-import * as path from "path";
+import { handleQueue } from "./utils/handleQueue.js";
 
 const binder: string = "Binder - Haves.csv";
 
@@ -15,7 +14,7 @@ async function main() {
     })
     .map((item) => generateURL(item));
 
-  work(shortList);
+  handleQueue(shortList);
 }
 
 main();
