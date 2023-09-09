@@ -8,7 +8,7 @@ function wait() {
 export async function work(data: string[]) {
   const dataToQueue = [...data].reverse();
   const queue: string[] = [];
-  const queueSize: number = 5;
+  const queueSize: number = 10;
   const dataToWork: Promise<AxiosResponse<any, any>>[] = [];
   const results: number[] = [];
 
@@ -26,6 +26,7 @@ export async function work(data: string[]) {
     console.log(queue);
 
     for (const item of queue) {
+      await wait();
       dataToWork.push(Axios.get(item));
     }
 
