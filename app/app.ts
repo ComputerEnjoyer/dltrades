@@ -1,14 +1,15 @@
 import generateURL from "./utils/generateURL.js";
-import { Card, parseBinder } from "./utils/parseBinder.js";
-import { handleQueue } from "./utils/handleQueue.js";
+import { MyCard, parseBinder } from "./utils/parseBinder.js";
+import handleQueue from "./utils/handleQueue.js";
+import getHTML from "./utils/getHTML.js";
 
 const binder: string = "Binder - Haves.csv";
 
 async function main() {
   const myBinder = await parseBinder(binder);
   const shortList = myBinder
-    .filter((item: Card, index: number) => {
-      if (index < 40) {
+    .filter((item: MyCard, index: number) => {
+      if (index < 10) {
         return item;
       }
     })

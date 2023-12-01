@@ -3,25 +3,25 @@ import * as path from "path";
 import { parse } from "csv";
 import { finished } from "stream/promises";
 
-export interface Card {
+export type MyCard = {
   name: string;
   count: number;
   foil: boolean;
   set: string;
   condition: string;
   language: string;
-}
+};
 
 export async function parseBinder(binder: string) {
   const binderPath = path.join(__dirname, `../../${binder}`);
   console.log(binderPath);
-  const records: Card[] = [];
+  const records: MyCard[] = [];
   const parser = fs
     .createReadStream(binderPath)
     .pipe(parse({ delimiter: ",", from_line: 2 }));
 
   for await (const record of parser) {
-    const card: Card = {
+    const card: MyCard = {
       name: record[1],
       count: parseInt(record[0]),
       foil: Boolean(record[2]),

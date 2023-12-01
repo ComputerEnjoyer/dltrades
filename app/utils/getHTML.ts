@@ -6,7 +6,7 @@ function wait() {
   return new Promise((resolve) => setTimeout(resolve, Math.random() * 50));
 }
 
-type DLCard = {
+export type DLCard = {
   name: string | undefined;
   set: string | undefined;
   tradeInValue: number;
@@ -16,7 +16,7 @@ type DLCard = {
   notWanted?: boolean;
 };
 
-export async function getHTML(currentQueue: string[]): Promise<any> {
+export default async function getHTML(currentQueue: string[]): Promise<any> {
   const dataToParse: Promise<AxiosResponse<any, any>>[] = [];
   const results: DLCard[] = [];
 

@@ -1,4 +1,4 @@
-import { Card } from "./parseBinder";
+import { MyCard } from "./parseBinder";
 
 function formatName(name: string) {
   return name
@@ -22,7 +22,7 @@ function formatSet(setToFormat: string) {
     .replaceAll(".", "");
 }
 
-export default function generateURL(data: Card) {
+export default function generateURL(data: MyCard) {
   const baseURL =
     "http://astraeus.dragonslair.se/product/card-singles/magic/name:";
   const card = formatName(data.name);
