@@ -1,4 +1,4 @@
-import { parsePage } from "./parsePage";
+import { getHTML } from "./getHTML";
 
 export async function handleQueue(data: string[]) {
   const dataToQueue = [...data].reverse();
@@ -19,8 +19,7 @@ export async function handleQueue(data: string[]) {
     console.log("In queue:");
     console.log(queue);
 
-    //TODO: Put parsePage function here
-    results = await parsePage(queue);
+    results = await getHTML(queue);
     console.log("Results:");
     console.log(results);
     queue.length = 0;

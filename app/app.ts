@@ -8,7 +8,7 @@ async function main() {
   const myBinder = await parseBinder(binder);
   const shortList = myBinder
     .filter((item: Card, index: number) => {
-      if (index < 50) {
+      if (index < 1) {
         return item;
       }
     })
