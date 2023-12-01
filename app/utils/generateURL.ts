@@ -12,7 +12,7 @@ function formatName(name: string) {
 function formatSet(setToFormat: string) {
   let set = setToFormat;
   if (set.search("magic") === -1) set = "magic " + set;
-  if (set.search("Modern Masters 2015")) set = set + " Edition";
+  // if (set.search("Modern Masters 2015")) set = set + " Edition";
 
   return set
     .toLowerCase()

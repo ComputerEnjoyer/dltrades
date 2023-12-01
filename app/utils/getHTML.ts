@@ -31,10 +31,11 @@ export async function getHTML(currentQueue: string[]): Promise<any> {
       const $products = $("div#main > table > tbody").find("tr");
       $products.each((i, tr) => {
         const name: string | undefined = $(tr).attr("data-name");
-        // TODO: the set field is sometimes not an image, but simply an <a> with the set as a.text()
-        const set: string | undefined = $(tr)
-          .find("td.align-right.wrap > a > img")
-          .attr("title");
+        const $setField = $(tr).find("td.align-right.wrap > a > img");
+        const set: string | undefined =
+          $setField.length != 0
+            ? $setField.attr("title")
+            : $(tr).find("td.align-right.wrap > a").text();
         const tradeInValue: number | null = parseInt(
           $(tr)
             .find(".format-subtle")
