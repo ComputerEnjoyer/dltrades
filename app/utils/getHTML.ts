@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from "axios";
 import * as cheerio from "cheerio";
 
 // We use wait so that our IP doesn't get banned for sending thousands of requests at the same time :)
-function wait() {
-  return new Promise((resolve) => setTimeout(resolve, Math.random() * 50));
+export function wait() {
+  return new Promise((resolve) => setTimeout(resolve, Math.random() * 500));
 }
 
 export type DLCard = {

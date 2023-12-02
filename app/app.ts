@@ -9,7 +9,7 @@ async function main() {
   const myBinder = await parseBinder(binder);
   const urlList = myBinder
     .filter((item: MyCard, index: number) => {
-      if (index < 10) {
+      if (index < 5) {
         return item;
       }
     })
