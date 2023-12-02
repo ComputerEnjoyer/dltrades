@@ -1,6 +1,5 @@
 import { MyCard, parseBinder } from "./utils/parseBinder.js";
 import handleQueue from "./utils/handleQueue.js";
-import getHTML from "./utils/getHTML.js";
 
 const binder: string = "Binder - Haves.csv";
 
@@ -19,7 +18,9 @@ async function main() {
         myBinderIndex++;
       }
     }
-    await handleQueue(queuedItems, queueSize);
+    const results = await handleQueue(queuedItems);
+    console.log("Results:");
+    console.log(results);
     queuedItems.length = 0;
   }
 }
