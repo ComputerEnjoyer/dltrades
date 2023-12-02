@@ -1,9 +1,8 @@
 import getHTML from "./getHTML";
 
-export default async function handleQueue(data: string[]) {
+export default async function handleQueue(data: string[], queueSize: number) {
   const dataToQueue = [...data].reverse();
   const queue: string[] = [];
-  const queueSize: number = 5;
   let results: number[] = [];
 
   while (dataToQueue.length) {
@@ -16,12 +15,13 @@ export default async function handleQueue(data: string[]) {
       }
     }
 
-    console.log("In queue:");
-    console.log(queue);
+    // console.log("In queue:");
+    // console.log(queue);
 
     results = await getHTML(queue);
-    console.log("Results:");
-    console.log(results);
+    // console.log("Results:");
+    // console.log(results);
+
     queue.length = 0;
   }
 }

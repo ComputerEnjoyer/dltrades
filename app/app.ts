@@ -7,15 +7,30 @@ const binder: string = "Binder - Haves.csv";
 
 async function main() {
   const myBinder = await parseBinder(binder);
-  const urlList = myBinder
-    .filter((item: MyCard, index: number) => {
-      if (index < 5) {
-        return item;
-      }
-    })
-    .map((item) => generateURL(item));
+  // const urlList = myBinder
+  //   .filter((item: MyCard, index: number) => {
+  //     if (index < 5) {
+  //       return item;
+  //     }
+  //   })
+  //   .map((item) => generateURL(item));
 
-  handleQueue(urlList);
+  const myBinderSize: number = 10;
+  const queueSize: number = 5;
+  let myBinderIndex = 0;
+  let queuedItems: MyCard[] = [];
+
+  while (myBinderIndex < myBinderSize) {
+    for (let row of myBinder) {
+      if (queuedItems.length < queueSize) {
+        queuedItems.push(row);
+      }
+      myBinderIndex++;
+    }
+    console.log(queuedItems);
+  }
+
+  // await handleQueue(urlList, queueSize);
 }
 
 main();
