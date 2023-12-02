@@ -1,7 +1,11 @@
-import getHTML from "./getHTML";
+import { MyCard } from "./parseBinder";
 
-export default async function handleQueue(data: string[], queueSize: number) {
-  const dataToQueue = [...data].reverse();
+import getHTML from "./getHTML";
+import generateURL from "./generateURL";
+
+export default async function handleQueue(data: MyCard[], queueSize: number) {
+  const urlList = data.map((item) => generateURL(item));
+  const dataToQueue = [...urlList].reverse();
   const queue: string[] = [];
   let results: number[] = [];
 
@@ -15,8 +19,8 @@ export default async function handleQueue(data: string[], queueSize: number) {
       }
     }
 
-    // console.log("In queue:");
-    // console.log(queue);
+    console.log("In queue:");
+    console.log(queue);
 
     results = await getHTML(queue);
     // console.log("Results:");

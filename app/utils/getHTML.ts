@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 
 // We use wait so that our IP doesn't get banned for sending thousands of requests at the same time :)
 export function wait() {
-  return new Promise((resolve) => setTimeout(resolve, Math.random() * 50));
+  return new Promise((resolve) => setTimeout(resolve, Math.random() * 100));
 }
 
 export type DLCard = {
