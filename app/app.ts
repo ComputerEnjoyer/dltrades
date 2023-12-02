@@ -7,7 +7,7 @@ const binder: string = "Binder - Haves.csv";
 
 async function main() {
   const myBinder = await parseBinder(binder);
-  const shortList = myBinder
+  const urlList = myBinder
     .filter((item: MyCard, index: number) => {
       if (index < 10) {
         return item;
@@ -15,7 +15,7 @@ async function main() {
     })
     .map((item) => generateURL(item));
 
-  handleQueue(shortList);
+  handleQueue(urlList);
 }
 
 main();
