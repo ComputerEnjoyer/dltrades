@@ -1,10 +1,4 @@
 import getHTML from "./getHTML";
-import { DLCard } from "./getHTML";
-
-interface QueueArgs {
-  data: string[];
-  cb(): string[] | DLCard[];
-}
 
 export default async function handleQueue(data: string[]) {
   const dataToQueue = [...data].reverse();
