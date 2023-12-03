@@ -10,23 +10,29 @@ export type DLCard = {
   name: string | undefined;
   set: string | undefined;
   tradeInValue: number;
-  tradeOutValue: number | null;
-  currentStock: number | null;
-  maxStock?: number | null;
+  tradeOutValue: number | undefined;
+  currentStock: number | undefined;
+  maxStock?: number | undefined;
   notWanted?: boolean;
 };
 
-export default async function getHTML(currentQueue: string[]): Promise<any> {
+export default async function getHTML(
+  currentQueue: string[]
+): Promise<DLCard[][]> {
   const dataToParse: Promise<AxiosResponse<any, any>>[] = [];
-  const results: DLCard[] = [];
+  const results: DLCard[][] = [];
+  const cardURL = "";
 
   for (const url of currentQueue) {
     await wait();
+    console.log(url);
     dataToParse.push(axios.get(url));
   }
   // TODO: Error handling
   await Promise.all(dataToParse).then((responses) =>
     responses.forEach((response) => {
+      // This should generate an array of arrays, where the inner arrays are all the results for a given URL.
+      const cardInQueue: DLCard[] = [];
       const $ = cheerio.load(response.data);
       const $products = $("div#main > table > tbody").find("tr");
       $products.each((i, tr) => {
@@ -36,12 +42,22 @@ export default async function getHTML(currentQueue: string[]): Promise<any> {
           $setField.length != 0
             ? $setField.attr("title")
             : $(tr).find("td.align-right.wrap > a").text();
-        const tradeInValue: number | null = parseInt(
-          $(tr)
-            .find(".format-subtle")
-            .text()
-            .replace(/[a-zA-Z]+/g, "")
-        );
+        const $tradeInField = $(tr)
+          .children()
+          .last()
+          .prev()
+          .prev()
+          .find("span.format-important");
+
+        const tradeInValue: number | null =
+          $tradeInField.text() === "Fullt"
+            ? parseInt(
+                $tradeInField
+                  .next()
+                  .text()
+                  .replace(/[a-zA-Z]+/g, "")
+              )
+            : parseInt($(tr).children().last().prev().prev().text());
         const tradeOutValue: number | null = parseInt(
           $(tr)
             .find(".format-bold")
@@ -53,11 +69,12 @@ export default async function getHTML(currentQueue: string[]): Promise<any> {
           .last()
           .prev()
           .text()
-          .match(/[1-9]+/g);
-        const currentStock = stock != null ? parseInt(stock[0]) : null;
-        const maxStock = stock != null ? parseInt(stock[1]) : null;
+          .match(/[0-9]+/g);
+        const currentStock = stock != null ? parseInt(stock[0]) : undefined;
 
-        results.push({
+        const maxStock = stock != null ? parseInt(stock[1]) : undefined;
+
+        cardInQueue.push({
           name,
           set,
           tradeInValue,
@@ -66,6 +83,7 @@ export default async function getHTML(currentQueue: string[]): Promise<any> {
           maxStock,
         });
       });
+      results.push(cardInQueue);
     })
   );
 

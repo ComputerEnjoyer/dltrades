@@ -1,5 +1,4 @@
 import { MyCard } from "./parseBinder";
-
 import getHTML from "./getHTML";
 import generateURL from "./generateURL";
 

@@ -1,26 +1,38 @@
 import { MyCard, parseBinder } from "./utils/parseBinder.js";
 import handleQueue from "./utils/handleQueue.js";
+import calculateTrades from "./utils/calculateTrades.js";
 
-const binder: string = "Binder - Haves.csv";
+const BINDER: string = "Binder - Haves.csv";
+const ACCEPTED_CONDITIONS = ["NM", "SP"];
+
+function excludeBadCard(item: MyCard) {
+  if (
+    item.foil === true ||
+    item.language != "English" ||
+    !ACCEPTED_CONDITIONS.includes(item.condition)
+  )
+    return false;
+  return true;
+}
 
 async function main() {
-  const myBinder = await parseBinder(binder);
+  const myBinder = await parseBinder(BINDER);
 
-  const myBinderSize: number = 10;
+  const myBinderSize: number = 5;
   const queueSize: number = 5;
-  let myBinderIndex = 0;
+  let startIndex = 0;
   let queuedItems: MyCard[] = [];
 
-  while (myBinderIndex < myBinderSize) {
-    for (let i = myBinderIndex; i < myBinderSize; i++) {
+  while (startIndex < myBinderSize) {
+    for (let i = startIndex; i < myBinderSize; i++) {
       if (queuedItems.length < queueSize) {
         queuedItems.push(myBinder[i]);
-        myBinderIndex++;
+        startIndex++;
       }
     }
-    const results = await handleQueue(queuedItems);
-    console.log("Results:");
-    console.log(results);
+    const filteredQueuedItems = queuedItems.filter(excludeBadCard);
+    const results = await handleQueue(filteredQueuedItems);
+    calculateTrades(filteredQueuedItems, results);
     queuedItems.length = 0;
   }
 }

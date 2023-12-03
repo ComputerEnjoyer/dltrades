@@ -14,7 +14,6 @@ export type MyCard = {
 
 export async function parseBinder(binder: string) {
   const binderPath = path.join(__dirname, `../../${binder}`);
-  console.log(binderPath);
   const records: MyCard[] = [];
   const parser = fs
     .createReadStream(binderPath)
