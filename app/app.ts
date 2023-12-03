@@ -2,7 +2,8 @@ import { MyCard, parseBinder } from "./utils/parseBinder.js";
 import handleQueue from "./utils/handleQueue.js";
 import calculateTrades from "./utils/calculateTrades.js";
 
-const BINDER: string = "Binder - Haves.csv";
+const HAVES: string = "Binder - Haves.csv";
+const WANTS: string = "Binder - Wants.csv";
 const ACCEPTED_CONDITIONS = ["NM", "SP"];
 
 function excludeBadCard(item: MyCard) {
@@ -16,7 +17,7 @@ function excludeBadCard(item: MyCard) {
 }
 
 async function main() {
-  const myBinder = await parseBinder(BINDER);
+  const myBinder = await parseBinder(WANTS);
 
   const myBinderSize: number = 5;
   const queueSize: number = 5;

@@ -26,6 +26,6 @@ export default function generateURL(data: MyCard) {
   const baseURL =
     "http://astraeus.dragonslair.se/product/card-singles/magic/name:";
   const card = formatName(data.name);
-  const set = formatSet(data.set);
+  const set = data.set != "" ? formatSet(data.set) : "";
   return `${baseURL}${card}/${set}`;
 }
