@@ -4,7 +4,7 @@
   "description": "",
   "main": "./build/app",
   "scripts": {
-    "dev": "node build/app.js",
+    "dev": "tsc && node build/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
