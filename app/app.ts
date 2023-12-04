@@ -19,7 +19,7 @@ function excludeBadCard(item: MyCard) {
 async function main() {
   const myBinder = await parseBinder(WANTS);
 
-  const myBinderSize: number = 5;
+  const myBinderSize: number = myBinder.length;
   const queueSize: number = 5;
   let startIndex = 0;
   let queuedItems: MyCard[] = [];
@@ -31,9 +31,9 @@ async function main() {
         startIndex++;
       }
     }
-    const filteredQueuedItems = queuedItems.filter(excludeBadCard);
-    const results = await handleQueue(filteredQueuedItems);
-    calculateTrades(filteredQueuedItems, results);
+    // const filteredQueuedItems = queuedItems.filter(excludeBadCard);
+    const results = await handleQueue(queuedItems);
+    calculateTrades(queuedItems, results);
     queuedItems.length = 0;
   }
 }

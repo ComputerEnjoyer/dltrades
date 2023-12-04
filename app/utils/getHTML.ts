@@ -3,14 +3,14 @@ import * as cheerio from "cheerio";
 
 // We use wait so that our IP doesn't get banned for sending thousands of requests at the same time :)
 export function wait() {
-  return new Promise((resolve) => setTimeout(resolve, Math.random() * 100));
+  return new Promise((resolve) => setTimeout(resolve, Math.random() * 500));
 }
 
 export type DLCard = {
   name: string | undefined;
   set: string | undefined;
   tradeInValue: number;
-  tradeOutValue: number | undefined;
+  tradeOutValue: number;
   currentStock: number | undefined;
   maxStock?: number | undefined;
   notWanted?: boolean;
@@ -21,11 +21,9 @@ export default async function getHTML(
 ): Promise<DLCard[][]> {
   const dataToParse: Promise<AxiosResponse<any, any>>[] = [];
   const results: DLCard[][] = [];
-  const cardURL = "";
 
   for (const url of currentQueue) {
     await wait();
-    console.log(url);
     dataToParse.push(axios.get(url));
   }
   // TODO: Error handling
@@ -58,12 +56,20 @@ export default async function getHTML(
                   .replace(/[a-zA-Z]+/g, "")
               )
             : parseInt($(tr).children().last().prev().prev().text());
-        const tradeOutValue: number | null = parseInt(
-          $(tr)
-            .find(".format-bold")
-            .text()
-            .replace(/[a-zA-Z]+/g, "")
-        );
+        const tradeOutValue: number | null =
+          $(tr).find(".format-important").text() === "Slut"
+            ? parseInt(
+                $(tr)
+                  .find(".format-subtle")
+                  .text()
+                  .replace(/[a-zA-Z]+/g, "")
+              )
+            : parseInt(
+                $(tr)
+                  .find(".format-bold")
+                  .text()
+                  .replace(/[a-zA-Z]+/g, "")
+              );
         const stock: RegExpMatchArray | null = $(tr)
           .children()
           .last()
