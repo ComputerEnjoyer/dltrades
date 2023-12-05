@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv";
 import { finished } from "stream/promises";
+import { Binder } from "../app";
 
 export type MyCard = {
   name: string;
@@ -12,7 +13,7 @@ export type MyCard = {
   language: string;
 };
 
-export async function parseBinder(binder: string) {
+export async function parseBinder(binder: Binder) {
   const binderPath = path.join(__dirname, `../../${binder}`);
   const records: MyCard[] = [];
   const parser = fs

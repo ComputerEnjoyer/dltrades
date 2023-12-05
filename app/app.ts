@@ -1,9 +1,17 @@
 import { MyCard, parseBinder } from "./utils/parseBinder.js";
 import handleQueue from "./utils/handleQueue.js";
 import calculateTrades from "./utils/calculateTrades.js";
+import { program } from "commander";
 
-const HAVES: string = "Binder - Haves.csv";
-const WANTS: string = "Binder - Wants.csv";
+program.option("--wants").parse();
+const options = program.opts();
+
+export enum Binder {
+  Haves = "Binder - Haves.csv",
+  Wants = "Binder - Wants.csv",
+}
+
+const MY_BINDER = options.wants === true ? Binder.Wants : Binder.Haves;
 const ACCEPTED_CONDITIONS = ["NM", "SP"];
 
 function excludeBadCard(item: MyCard) {
@@ -17,10 +25,10 @@ function excludeBadCard(item: MyCard) {
 }
 
 async function main() {
-  const myBinder = await parseBinder(WANTS);
+  const myBinder = await parseBinder(MY_BINDER);
 
   const myBinderSize: number = myBinder.length;
-  const queueSize: number = 5;
+  const queueSize: number = 10;
   let startIndex = 0;
   let queuedItems: MyCard[] = [];
 
@@ -31,9 +39,11 @@ async function main() {
         startIndex++;
       }
     }
-    // const filteredQueuedItems = queuedItems.filter(excludeBadCard);
+    if (MY_BINDER === Binder.Haves) {
+      queuedItems = queuedItems.filter(excludeBadCard);
+    }
     const results = await handleQueue(queuedItems);
-    calculateTrades(queuedItems, results);
+    calculateTrades(MY_BINDER, queuedItems, results);
     queuedItems.length = 0;
   }
 }
