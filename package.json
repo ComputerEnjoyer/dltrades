@@ -5,7 +5,7 @@
   "main": "./build/app",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev": "tsc && node build/app.js",
+    "dev": "tsc && node build/src/app/app.js",
     "test": "jest"
   },
   "author": "",
