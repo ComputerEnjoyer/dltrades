@@ -6,3 +6,6 @@ env/
 node_modules/
 build/
 node/
+jest.config.ts
+src/test/
+TO-DO.md
