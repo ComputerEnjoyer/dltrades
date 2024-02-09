@@ -27,71 +27,73 @@ export default async function getHTML(
     dataToParse.push(axios.get(url));
   }
   // TODO: Error handling
-  await Promise.all(dataToParse).then((responses) =>
-    responses.forEach((response) => {
-      // This should generate an array of arrays, where the inner arrays are all the results for a given URL.
-      const cardInQueue: DLCard[] = [];
-      const $ = cheerio.load(response.data);
-      const $products = $("div#main > table > tbody").find("tr");
-      $products.each((i, tr) => {
-        const name: string | undefined = $(tr).attr("data-name");
-        const $setField = $(tr).find("td.align-right.wrap > a > img");
-        const set: string | undefined =
-          $setField.length != 0
-            ? $setField.attr("title")
-            : $(tr).find("td.align-right.wrap > a").text();
-        const $tradeInField = $(tr)
-          .children()
-          .last()
-          .prev()
-          .prev()
-          .find("span.format-important");
+  await Promise.all(dataToParse)
+    .then((responses) =>
+      responses.forEach((response) => {
+        // This should generate an array of arrays, where the inner arrays are all the results for a given URL.
+        const cardInQueue: DLCard[] = [];
+        const $ = cheerio.load(response.data);
+        const $products = $("div#main > table > tbody").find("tr");
+        $products.each((i, tr) => {
+          const name: string | undefined = $(tr).attr("data-name");
+          const $setField = $(tr).find("td.align-right.wrap > a > img");
+          const set: string | undefined =
+            $setField.length != 0
+              ? $setField.attr("title")
+              : $(tr).find("td.align-right.wrap > a").text();
+          const $tradeInField = $(tr)
+            .children()
+            .last()
+            .prev()
+            .prev()
+            .find("span.format-important");
 
-        const tradeInValue: number | null =
-          $tradeInField.text() === "Fullt"
-            ? parseInt(
-                $tradeInField
-                  .next()
-                  .text()
-                  .replace(/[a-zA-Z]+/g, "")
-              )
-            : parseInt($(tr).children().last().prev().prev().text());
-        const tradeOutValue: number | null =
-          $(tr).find(".format-important").text() === "Slut"
-            ? parseInt(
-                $(tr)
-                  .find(".format-subtle")
-                  .text()
-                  .replace(/[a-zA-Z]+/g, "")
-              )
-            : parseInt(
-                $(tr)
-                  .find(".format-bold")
-                  .text()
-                  .replace(/[a-zA-Z]+/g, "")
-              );
-        const stock: RegExpMatchArray | null = $(tr)
-          .children()
-          .last()
-          .prev()
-          .text()
-          .match(/[0-9]+/g);
-        const currentStock = stock != null ? parseInt(stock[0]) : undefined;
+          const tradeInValue: number | null =
+            $tradeInField.text() === "Fullt"
+              ? parseInt(
+                  $tradeInField
+                    .next()
+                    .text()
+                    .replace(/[a-zA-Z]+/g, "")
+                )
+              : parseInt($(tr).children().last().prev().prev().text());
+          const tradeOutValue: number | null =
+            $(tr).find(".format-important").text() === "Slut"
+              ? parseInt(
+                  $(tr)
+                    .find(".format-subtle")
+                    .text()
+                    .replace(/[a-zA-Z]+/g, "")
+                )
+              : parseInt(
+                  $(tr)
+                    .find(".format-bold")
+                    .text()
+                    .replace(/[a-zA-Z]+/g, "")
+                );
+          const stock: RegExpMatchArray | null = $(tr)
+            .children()
+            .last()
+            .prev()
+            .text()
+            .match(/[0-9]+/g);
+          const currentStock = stock != null ? parseInt(stock[0]) : undefined;
 
-        const maxStock = stock != null ? parseInt(stock[1]) : undefined;
+          const maxStock = stock != null ? parseInt(stock[1]) : undefined;
 
-        cardInQueue.push({
-          name,
-          set,
-          tradeInValue,
-          tradeOutValue,
-          currentStock,
-          maxStock,
+          cardInQueue.push({
+            name,
+            set,
+            tradeInValue,
+            tradeOutValue,
+            currentStock,
+            maxStock,
+          });
         });
-      });
-      results.push(cardInQueue);
-    })
-  );
+        results.push(cardInQueue);
+      })
+    )
+    .catch(() => console.log("503 in batch..."));
 
   return results;
 }
