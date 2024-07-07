@@ -24,7 +24,7 @@ function excludeBadCard(item: MyCard) {
   return true;
 }
 
-async function main() {
+const main = async () => {
   const myBinder = await parseBinder(MY_BINDER);
 
   const myBinderSize: number = myBinder.length;
@@ -46,6 +46,6 @@ async function main() {
     calculateTrades(MY_BINDER, queuedItems, results);
     queuedItems.length = 0;
   }
-}
+};
 
 main();
