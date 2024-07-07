@@ -2,10 +2,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv";
-import { finished } from "stream/promises";
 
 // Project
-import { Binder } from "../app";
+import { Binder, programOptions } from "../app";
 
 export type MyCard = {
   name: string;
@@ -16,6 +15,32 @@ export type MyCard = {
   language: string;
 };
 
+const filterName = (card: MyCard) => {
+  if (programOptions.name) {
+    const name = programOptions.name.toLowerCase();
+    return card.name.toLowerCase().includes(name);
+  }
+  return true;
+};
+
+const filterSet = (card: MyCard) => {
+  if (programOptions.set) {
+    const set = programOptions.set.toLowerCase();
+    return card.set.toLowerCase().includes(set);
+  }
+  return true;
+};
+
+const filterFoil = (card: MyCard) => {
+  if (programOptions.foil === "only") {
+    return card.foil;
+  }
+  if (programOptions.foil === "none") {
+    return !card.foil;
+  }
+  return true;
+};
+
 export const parseBinder = async (binder: Binder) => {
   const binderPath = path.join(__dirname, `../../../../${binder}`);
   const records: MyCard[] = [];
@@ -24,6 +49,7 @@ export const parseBinder = async (binder: Binder) => {
     .pipe(parse({ delimiter: ",", from_line: 2 }));
 
   for await (const record of parser) {
+    if (records.length >= programOptions.limit) break;
     const card: MyCard = {
       name: record[1],
       count: parseInt(record[0]),
@@ -32,8 +58,8 @@ export const parseBinder = async (binder: Binder) => {
       condition: record[4],
       language: record[5],
     };
-    records.push(card);
+    if (filterSet(card) && filterName(card) && filterFoil(card))
+      records.push(card);
   }
-  await finished(parser);
   return records;
 };
