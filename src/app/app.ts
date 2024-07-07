@@ -1,7 +1,10 @@
-import { MyCard, parseBinder } from "./utils/parseBinder.js";
-import handleQueue from "./utils/handleQueue.js";
-import calculateTrades from "./utils/calculateTrades.js";
+// Global dependencies
 import { program } from "commander";
+
+// Project dependencies
+import { calculateTrades } from "./utils/calculateTrades";
+import { handleQueue } from "./utils/handleQueue";
+import { MyCard, parseBinder } from "./utils/parseBinder";
 
 program.option("--wants").parse();
 const options = program.opts();

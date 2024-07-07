@@ -1,5 +1,6 @@
-import axios, { AxiosResponse } from "axios";
+// Global dependencies
 import * as cheerio from "cheerio";
+import axios, { AxiosResponse } from "axios";
 
 // We use wait so that our IP doesn't get banned for sending thousands of requests at the same time :)
 const wait = () => {
@@ -16,7 +17,7 @@ export type DLCard = {
   notWanted?: boolean;
 };
 
-const getHTML = async (currentQueue: string[]) => {
+export const getHTML = async (currentQueue: string[]) => {
   const dataToParse: Promise<AxiosResponse<any, any>>[] = [];
   const results: DLCard[][] = [];
 
@@ -106,5 +107,3 @@ const getHTML = async (currentQueue: string[]) => {
 
   return results;
 };
-
-export default getHTML;

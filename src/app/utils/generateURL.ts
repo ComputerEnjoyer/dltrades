@@ -1,3 +1,4 @@
+// Project dependencies
 import { MyCard } from "./parseBinder";
 
 const formatName = (name: string) => {
@@ -22,12 +23,10 @@ const formatSet = (setToFormat: string) => {
     .replaceAll(".", "");
 };
 
-const generateURL = (data: MyCard) => {
+export const generateURL = (data: MyCard) => {
   const baseURL =
     "http://astraeus.dragonslair.se/product/card-singles/magic/name:";
   const card = formatName(data.name);
   const set = data.set != "" ? formatSet(data.set) : "";
   return `${baseURL}${card}/${set}`;
 };
-
-export default generateURL;

@@ -1,7 +1,10 @@
+// Global dependencies
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv";
 import { finished } from "stream/promises";
+
+// Project
 import { Binder } from "../app";
 
 export type MyCard = {
