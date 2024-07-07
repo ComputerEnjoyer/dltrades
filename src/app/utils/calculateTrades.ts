@@ -1,8 +1,9 @@
+// Project dependencies
 import { DLCard } from "./getHTML";
 import { MyCard } from "./parseBinder";
 import { Binder } from "../app";
 
-const calculateTrades = (
+export const calculateTrades = (
   binder: Binder,
   myCards: MyCard[],
   DLCards: DLCard[][]
@@ -59,5 +60,3 @@ const calculateTrades = (
     }
   }
 };
-
-export default calculateTrades;
