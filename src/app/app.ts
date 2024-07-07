@@ -14,7 +14,7 @@ export enum Binder {
 const MY_BINDER = options.wants === true ? Binder.Wants : Binder.Haves;
 const ACCEPTED_CONDITIONS = ["NM", "SP"];
 
-function excludeBadCard(item: MyCard) {
+const excludeBadCard = (item: MyCard) => {
   if (
     item.foil === true ||
     item.language != "English" ||
@@ -22,7 +22,7 @@ function excludeBadCard(item: MyCard) {
   )
     return false;
   return true;
-}
+};
 
 const main = async () => {
   const myBinder = await parseBinder(MY_BINDER);
