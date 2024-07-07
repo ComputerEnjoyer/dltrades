@@ -6,20 +6,34 @@ import { calculateTrades } from "./utils/calculateTrades";
 import { handleQueue } from "./utils/handleQueue";
 import { MyCard, parseBinder } from "./utils/parseBinder";
 
-program.option("--wants").parse();
-const options = program.opts();
+program
+  .option("-w, --wants", "use WANTS binder; HAVES is the default.")
+  .option("-s, --set <set name>", "filter for set names containing this string")
+  .option(
+    "-n, --name <card name>",
+    "filter for card names containing this string"
+  )
+  .option(
+    "-f, --foil <only/none>",
+    "show ONLY foils, or show NONE; default shows all cards."
+  )
+  .option(
+    "-l, --limit <number>",
+    "limit the number of rows the app iterates over"
+  )
+  .parse();
+export const programOptions = program.opts();
 
 export enum Binder {
   Haves = "Binder - Haves.csv",
   Wants = "Binder - Wants.csv",
 }
 
-const MY_BINDER = options.wants === true ? Binder.Wants : Binder.Haves;
+const MY_BINDER = programOptions.wants === true ? Binder.Wants : Binder.Haves;
 const ACCEPTED_CONDITIONS = ["NM", "SP"];
 
 const excludeBadCard = (item: MyCard) => {
   if (
-    item.foil === true ||
     item.language != "English" ||
     !ACCEPTED_CONDITIONS.includes(item.condition)
   )
