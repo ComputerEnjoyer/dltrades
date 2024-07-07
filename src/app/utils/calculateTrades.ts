@@ -7,6 +7,8 @@ export default function calculateTrades(
   myCards: MyCard[],
   DLCards: DLCard[][]
 ) {
+  if (DLCards.length < myCards.length) return;
+
   myCardsLoop: for (let i = 0; i < myCards.length; i++) {
     let myTradeInStock = myCards[i].count;
 

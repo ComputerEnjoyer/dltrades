@@ -16,9 +16,7 @@ export type DLCard = {
   notWanted?: boolean;
 };
 
-export default async function getHTML(
-  currentQueue: string[]
-): Promise<DLCard[][]> {
+export default async function getHTML(currentQueue: string[]) {
   const dataToParse: Promise<AxiosResponse<any, any>>[] = [];
   const results: DLCard[][] = [];
 
@@ -93,7 +91,18 @@ export default async function getHTML(
         results.push(cardInQueue);
       })
     )
-    .catch(() => console.log("503 in batch..."));
+    .catch(() => {
+      results.push([
+        {
+          name: undefined,
+          set: undefined,
+          tradeInValue: 0,
+          tradeOutValue: 0,
+          currentStock: 0,
+        },
+      ]);
+      console.log("503 in batch " + currentQueue);
+    });
 
   return results;
 }
