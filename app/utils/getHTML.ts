@@ -2,9 +2,9 @@ import axios, { AxiosResponse } from "axios";
 import * as cheerio from "cheerio";
 
 // We use wait so that our IP doesn't get banned for sending thousands of requests at the same time :)
-export function wait() {
+export const wait = () => {
   return new Promise((resolve) => setTimeout(resolve, Math.random() * 50));
-}
+};
 
 export type DLCard = {
   name: string | undefined;
@@ -16,9 +16,7 @@ export type DLCard = {
   notWanted?: boolean;
 };
 
-export default async function getHTML(
-  currentQueue: string[]
-): Promise<DLCard[][]> {
+const getHTML = async (currentQueue: string[]): Promise<DLCard[][]> => {
   const dataToParse: Promise<AxiosResponse<any, any>>[] = [];
   const results: DLCard[][] = [];
 
@@ -94,4 +92,6 @@ export default async function getHTML(
   );
 
   return results;
-}
+};
+
+export default getHTML;

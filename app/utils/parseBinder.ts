@@ -13,7 +13,7 @@ export type MyCard = {
   language: string;
 };
 
-export async function parseBinder(binder: Binder) {
+export const parseBinder = async (binder: Binder) => {
   const binderPath = path.join(__dirname, `../../${binder}`);
   const records: MyCard[] = [];
   const parser = fs
@@ -33,4 +33,4 @@ export async function parseBinder(binder: Binder) {
   }
   await finished(parser);
   return records;
-}
+};

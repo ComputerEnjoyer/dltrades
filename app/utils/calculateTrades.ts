@@ -2,11 +2,11 @@ import { DLCard } from "./getHTML";
 import { MyCard } from "./parseBinder";
 import { Binder } from "../app";
 
-export default function calculateTrades(
+const calculateTrades = (
   binder: Binder,
   myCards: MyCard[],
   DLCards: DLCard[][]
-) {
+) => {
   myCardsLoop: for (let i = 0; i < myCards.length; i++) {
     let myTradeInStock = myCards[i].count;
 
@@ -56,4 +56,6 @@ export default function calculateTrades(
       }
     }
   }
-}
+};
+
+export default calculateTrades;
