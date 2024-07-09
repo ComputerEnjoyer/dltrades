@@ -50,12 +50,13 @@ const main = async () => {
   let queuedItems: MyCard[] = [];
 
   while (startIndex < myBinderSize) {
-    for (let i = startIndex; i < myBinderSize; i++) {
+    myBinder.slice(startIndex).forEach((item) => {
       if (queuedItems.length < queueSize) {
-        queuedItems.push(myBinder[i]);
+        queuedItems.push(item);
         startIndex++;
       }
-    }
+    });
+
     if (MY_BINDER === Binder.Haves) {
       queuedItems = queuedItems.filter(excludeBadCard);
     }
