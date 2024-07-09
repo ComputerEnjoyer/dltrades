@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv";
 
-// Project
+// Project dependencies
 import { Binder, programOptions } from "../app";
 
 export type MyCard = {
